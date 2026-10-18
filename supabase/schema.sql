@@ -27,6 +27,11 @@ alter table public.app_state enable row level security;
 alter table public.gallery_memories enable row level security;
 alter table public.music_tracks enable row level security;
 
+grant usage on schema public to service_role;
+grant select, insert, update, delete on public.app_state to service_role;
+grant select, insert, update, delete on public.gallery_memories to service_role;
+grant select, insert, update, delete on public.music_tracks to service_role;
+
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values
   ('memory-photos', 'memory-photos', true, 20971520, array['image/jpeg', 'image/png', 'image/webp', 'image/gif']),
