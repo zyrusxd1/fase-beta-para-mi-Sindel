@@ -25,3 +25,24 @@ The current beta API is intentionally unauthenticated, as selected for this test
 The existing local `data/` directory is ignored by Git and is not copied to Supabase automatically. Import only files and content you have chosen and are authorized to publish. Do not upload commercial or otherwise unlicensed music.
 
 Supabase's service-role key bypasses row-level security. It is used only by the Express server; the SQL migration enables RLS and creates no direct browser policies.
+
+## Import existing local content
+
+The app keeps letters, settings, reasons, milestones, and the bucket list in the browser's local storage. Export those values from the same browser profile that contains the current app data by opening the local app (`http://localhost:5173/`) and running this in its browser developer console:
+
+```js
+const keys = ['para_mi_amor_settings', 'para_mi_amor_letters', 'para_mi_amor_bucket', 'para_mi_amor_milestones', 'para_mi_amor_secret_notes', 'para_mi_amor_reasons', 'para_mi_amor_memories'];
+const data = Object.fromEntries(keys.map(key => [key, localStorage.getItem(key)]).filter(([, value]) => value !== null));
+const link = document.createElement('a');
+link.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+link.download = 'para-mi-amor-local-data.json';
+link.click();
+```
+
+Save the download outside the repository, such as in Downloads. In a local `.env` file, set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` using the values from your Supabase project. Then run:
+
+```powershell
+npm run migrate:local -- "C:\Users\<you>\Downloads\para-mi-amor-local-data.json"
+```
+
+The importer transfers the exported app state, local gallery photos and metadata, and local MP3s directly to Supabase. The local export and media remain excluded from Git. Only migrate music you own or have explicit rights to host and stream publicly.
