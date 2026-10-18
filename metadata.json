@@ -1,0 +1,6 @@
+{
+  "name": "Para Mi Amor - Nuestra Historia",
+  "description": "Un rincón secreto y digital para celebrar nuestra historia de amor, cartas selladas con cera, galería de recuerdos, razones por las que te amo y cuenta regresiva.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
